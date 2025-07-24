@@ -159,7 +159,7 @@ MIT License — use freely with attribution.
 ## 🌍 Connect with Me
 
 * GitHub: [your-github](https://github.com/mja2001)
-* LinkedIn: [yourname](https://linkedin.com/in/alayhamalmajali)
+* LinkedIn: [yourname](https://linkedin.com/in/alayhammalmajali)
 * Twitter: [@yourhandle](https://twitter.com/aymmj2001)
 
 ---
