@@ -1,0 +1,8 @@
+import { Web3Storage } from 'web3.storage';
+
+const client = new Web3Storage({ token: 'YOUR_WEB3_STORAGE_API_KEY' });
+
+export async function uploadToIPFS(fileBlob: Blob): Promise<string> {
+  const cid = await client.put([new File([fileBlob], 'encrypted-file')]);
+  return cid; // Store this in the Solana program
+}
