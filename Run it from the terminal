@@ -1,0 +1,3 @@
+yarn cleanup
+# or
+npm run cleanup
