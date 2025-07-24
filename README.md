@@ -35,6 +35,104 @@ Access-controlled: Senders can revoke or limit access anytime.
 
 Gas-efficient: Solana’s fast and low-fee network makes frequent access logging and revocation practical
 
+| Layer                   | Technology                          | Purpose/Role                                              |
+| ----------------------- | ----------------------------------- | --------------------------------------------------------- |
+| 🔗 **Blockchain Layer** | **Solana**                          | High-performance blockchain for on-chain logic            |
+| 📜 **Smart Contracts**  | **Rust + Anchor**                   | Build, deploy, and manage Solana smart contracts          |
+| 🧑‍💻 **Frontend**      | **React + Vite or Next.js**         | Build fast UI for upload, access control, decryption      |
+| 🧠 **CLI Toolkit**      | **sol-dev CLI**                     | Scaffolding + SDK generation for Solana programs          |
+| 💾 **Storage**          | **IPFS / Arweave**                  | Off-chain, decentralized storage of encrypted files       |
+| 🔐 **Encryption**       | **AES-GCM (Web Crypto API)**        | Encrypt files client-side in the browser                  |
+| 👛 **Wallet Adapter**   | **Solana Wallet Adapter + Phantom** | Connect wallets to the DApp, sign transactions            |
+| 🔄 **Automation**       | **Node.js (cron script)**           | Run cleanup/revocation for expired document access        |
+| 📦 **SDK**              | **Generated TypeScript SDK**        | Use Anchor program from frontend using `sol-dev generate` |
+
+Detailed Breakdown
+🔗 Blockchain Layer
+Solana: Chosen for its low fees and high speed.
+
+Devnet/Mainnet compatibility for testing and launch.
+
+📜 Smart Contracts
+Rust: The main language for Solana programs.
+
+Anchor: Framework that simplifies account validation, error handling, and instruction parsing.
+
+Handles:
+
+Document registration
+
+Granting/revoking access
+
+Logging file opens (audit)
+
+🧠 sol-dev CLI
+Bootstrap the project
+
+Generate SDK from Anchor program
+
+Connect smart contract to frontend
+
+💻 Frontend
+React: Single-page app for UX
+
+Vite or Next.js: Fast dev environment
+
+Built UI for:
+
+Uploading and encrypting files
+
+Viewing shared documents
+
+Managing access
+
+🔐 Encryption
+Uses Web Crypto API (built-in browser tools)
+
+Encrypts files using AES-GCM
+
+Can optionally derive key from wallet signature (window.solana.signMessage())
+
+💾 Off-chain Storage
+IPFS or Arweave:
+
+IPFS via Infura, Web3.Storage, or Pinata
+
+Arweave for permanent, pay-once storage
+
+Encrypted content is uploaded, and CID stored on-chain
+
+👛 Wallet
+Phantom Wallet
+
+@solana/wallet-adapter-react
+
+Used for:
+
+Signing transactions
+
+Signing messages (optional for key derivation)
+
+Identifying sender/recipient
+
+🔄 Automation
+scripts/cleanup.ts:
+
+Uses the SDK
+
+Scans documents with expired timestamps
+
+Calls smart contract to revoke access
+
+| Tool            | Use                                       |
+| --------------- | ----------------------------------------- |
+| `solana-cli`    | Wallets, keys, deploy programs            |
+| `anchor-cli`    | Build, test, and deploy smart contracts   |
+| `yarn` or `npm` | Frontend package manager                  |
+| GitHub          | Version control and open-source hosting   |
+| GitHub Actions  | Automate test and deploy flows (optional) |
+
+
 | Feature                           | Description                                                                                    |
 | --------------------------------- | ---------------------------------------------------------------------------------------------- |
 | Wallet-to-wallet document sharing | Send encrypted documents directly between Solana wallets without intermediaries.               |
@@ -80,3 +178,11 @@ Enterprises: Exchange confidential documents with partners without email risks.
 
 General users: Private file sharing with friends or family using just wallet addresses.
 
+ Optional Enhancements
+NFT integration: Convert access grants into soulbound NFTs (non-transferable).
+
+ZK Proofs: Prove that a document was shared without revealing its contents.
+
+Multi-file encryption: Batch uploads.
+
+Solana Name Service (SNS): Send docs to usernames instead of wallet addresses.
