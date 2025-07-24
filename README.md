@@ -1,2 +1,2 @@
-# SolDocs
+# SolDocsPlus
 Secure wallet-to-wallet encrypted document sharing on Solana
