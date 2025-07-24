@@ -1,0 +1,9 @@
+Connects to your Anchor program
+
+Fetches all documents
+
+Checks if they're expired
+
+Finds access accounts linked to them
+
+Revokes those that are still active
