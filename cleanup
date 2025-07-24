@@ -1,0 +1,52 @@
+import { AnchorProvider, Program, web3, BN } from '@project-serum/anchor';
+import idl from '../idl/soldocs.json';
+import { getProvider } from '../utils/provider';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const programID = new web3.PublicKey('SoLD0cs11111111111111111111111111111111111111');
+
+async function runCleanup() {
+  const provider = getProvider();
+  const program = new Program(idl, programID, provider);
+
+  console.log('🔎 Fetching all documents...');
+  const docs = await program.account.document.all();
+
+  const now = Math.floor(Date.now() / 1000);
+
+  for (const doc of docs) {
+    if (doc.account.expiresAt.toNumber() < now) {
+      console.log(`⏰ Expired document: ${doc.publicKey.toBase58()}`);
+
+      const accessList = await program.account.access.all([
+        {
+          memcmp: {
+            offset: 8, // document pubkey at offset 8
+            bytes: doc.publicKey.toBase58(),
+          },
+        },
+      ]);
+
+      for (const access of accessList) {
+        if (!access.account.revoked) {
+          console.log(`🔒 Revoking access for ${access.account.grantee.toBase58()}`);
+          await program.methods
+            .revokeAccess()
+            .accounts({
+              access: access.publicKey,
+              owner: doc.account.owner,
+            })
+            .rpc();
+        }
+      }
+    }
+  }
+
+  console.log('✅ Cleanup complete.');
+}
+
+runCleanup().catch((err) => {
+  console.error('❌ Error running cleanup:', err);
+});
