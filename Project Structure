@@ -1,8 +1,10 @@
-SolDocsPlus/
-├── programs/soldocs/        # Anchor program
-├── app/                     # React frontend
-├── client/                  # sol-dev SDK
-├── scripts/
-├── Anchor.toml
-├── sol-dev.config.json
-└── README.mdst
+soldocsplus/
+├── app/                  # React frontend
+│   ├── pages/Upload.tsx
+│   ├── pages/View.tsx
+│   └── utils/
+├── programs/soldocs/     # Anchor smart contract
+│   └── src/lib.rs
+├── scripts/cleanup.ts    # Revoke expired access
+├── idl/                  # Anchor IDL
+├── README.md             # You're here!
