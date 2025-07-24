@@ -1,0 +1,22 @@
+import { Program, AnchorProvider, web3 } from '@project-serum/anchor';
+import idl from '../idl/soldocs.json'; // Generated from Anchor
+import { getProvider } from './provider';
+
+const programID = new web3.PublicKey('SoLD0cs11111111111111111111111111111111111111');
+
+export async function registerDocument(ipfs_hash: string, expires_at: number) {
+  const provider = getProvider();
+  const program = new Program(idl, programID, provider);
+
+  const document = web3.Keypair.generate();
+
+  await program.methods
+    .registerDocument(ipfs_hash, new web3.BN(expires_at))
+    .accounts({
+      document: document.publicKey,
+      owner: provider.wallet.publicKey,
+      systemProgram: web3.SystemProgram.programId,
+    })
+    .signers([document])
+    .rpc();
+}
