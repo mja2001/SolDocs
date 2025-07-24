@@ -1,0 +1,25 @@
+export async function fetchDocAccess(docKey: string, viewer: PublicKey): Promise<boolean> {
+  const provider = getProvider();
+  const program = new Program(idl, programID, provider);
+
+  const accessAccounts = await program.account.access.all([
+    {
+      memcmp: {
+        offset: 8 + 32 + 32, // skip doc + owner
+        bytes: viewer.toBase58(),
+      },
+    },
+  ]);
+
+  const match = accessAccounts.find((acc) => acc.account.doc.toBase58() === docKey && !acc.account.revoked);
+  return !!match;
+}
+
+export async function fetchDocumentMeta(docKey: string): Promise<{ ipfs_hash: string; iv: Uint8Array }> {
+  const provider = getProvider();
+  const program = new Program(idl, programID, provider);
+
+  const doc = await program.account.document.fetch(docKey);
+  const iv = new Uint8Array(12); // optional: load real IV from doc if stored
+  return { ipfs_hash: doc.ipfsHash, iv };
+}
