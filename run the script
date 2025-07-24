@@ -1,0 +1,3 @@
+"scripts": {
+  "cleanup": "ts-node scripts/cleanup.ts"
+}
