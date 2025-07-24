@@ -1,0 +1,65 @@
+import React, { useState } from 'react';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { fetchDocAccess, fetchDocumentMeta } from '../utils/solanaClient';
+import { decryptFile } from '../utils/encrypt';
+import { getFromIPFS } from '../utils/ipfs';
+
+const View = () => {
+  const { publicKey, signMessage } = useWallet();
+  const [docPubkey, setDocPubkey] = useState('');
+  const [status, setStatus] = useState('');
+  const [downloadUrl, setDownloadUrl] = useState('');
+
+  const handleView = async () => {
+    if (!docPubkey || !publicKey || !signMessage) {
+      alert('Wallet not connected or input missing.');
+      return;
+    }
+
+    setStatus('🔍 Checking access...');
+    const hasAccess = await fetchDocAccess(docPubkey, publicKey);
+    if (!hasAccess) {
+      setStatus('❌ Access denied');
+      return;
+    }
+
+    setStatus('📦 Fetching metadata...');
+    const { ipfs_hash, iv } = await fetchDocumentMeta(docPubkey);
+    if (!ipfs_hash) {
+      setStatus('❌ Document not found');
+      return;
+    }
+
+    setStatus('⬇️ Downloading encrypted file...');
+    const encryptedBlob = await getFromIPFS(ipfs_hash);
+
+    setStatus('🔐 Decrypting file...');
+    const keyBytes = await signMessage(new TextEncoder().encode('doc-encryption-key'));
+    const decryptedBlob = await decryptFile(encryptedBlob, keyBytes, iv);
+
+    const blobUrl = URL.createObjectURL(decryptedBlob);
+    setDownloadUrl(blobUrl);
+    setStatus('✅ File ready to download!');
+  };
+
+  return (
+    <div style={{ padding: '2rem' }}>
+      <h2>🔓 View Shared Document</h2>
+      <input
+        placeholder="Document Pubkey"
+        value={docPubkey}
+        onChange={(e) => setDocPubkey(e.target.value)}
+        style={{ width: '100%', marginBottom: '1rem' }}
+      />
+      <button onClick={handleView}>View & Decrypt</button>
+      <p>{status}</p>
+      {downloadUrl && (
+        <a href={downloadUrl} download="decrypted-file" target="_blank" rel="noopener noreferrer">
+          ⬇️ Download Decrypted File
+        </a>
+      )}
+    </div>
+  );
+};
+
+export default View;
