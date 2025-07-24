@@ -1,0 +1,8 @@
+SolDocsPlus/
+├── programs/soldocs/        # Anchor program
+├── app/                     # React frontend
+├── client/                  # sol-dev SDK
+├── scripts/
+├── Anchor.toml
+├── sol-dev.config.json
+└── README.mdst
