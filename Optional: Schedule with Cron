@@ -1,0 +1,1 @@
+0 3 * * * cd /path/to/project && yarn cleanup >> logs/cleanup.log
