@@ -1,9 +1,9 @@
-soldocsplus/
+SolCipher/
 ├── app/                  # React frontend
 │   ├── pages/Upload.tsx
 │   ├── pages/View.tsx
 │   └── utils/
-├── programs/soldocs/     # Anchor smart contract
+├── programs/SolCipher/     # Anchor smart contract
 │   └── src/lib.rs
 ├── scripts/cleanup.ts    # Revoke expired access
 ├── idl/                  # Anchor IDL
