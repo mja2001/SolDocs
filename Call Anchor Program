@@ -1,5 +1,5 @@
 import { Program, AnchorProvider, web3 } from '@project-serum/anchor';
-import idl from '../idl/soldocs.json'; // Generated from Anchor
+import idl from '../idl/SolCipher.json'; // Generated from Anchor
 import { getProvider } from './provider';
 
 const programID = new web3.PublicKey('SoLD0cs11111111111111111111111111111111111111');
