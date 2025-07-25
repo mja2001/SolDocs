@@ -1,4 +1,4 @@
-# 🔐 SolCipher – Secure Encrypted Document Sharing on Solana
+# 🔐 SolCipher – Secure Encrypted Documents Sharing on Solana
 SolCipher is a decentralized application that allows users to upload, encrypt, and share documents from wallet to wallet — all secured with client-side encryption, on-chain access control, and decentralized storage using IPFS.
 
 ---
