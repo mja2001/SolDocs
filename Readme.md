@@ -153,13 +153,7 @@ SolCipher solves the problem of **secure file sharing in a decentralized world**
 - No centralized servers
 - Only the recipient can view the file
 - Access is verifiable on-chain
-
----
-
-## 📜 License
-
-MIT License — use freely with attribution.
-
+  
 ---
 
 ## 🌍 Connect with Me
